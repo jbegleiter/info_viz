@@ -2,11 +2,36 @@
 // Jason Begleiter
 // 4/13/15
 
+
+//Global Article List
+var master_Articles = [];
+var article_id_index = master_Articles.length - 1;
+
+var master_Topics = [];
+
+function create_topic(name){
+	var new_topic = new Topic(name);
+	new_topic.position = master_Topics.length;
+	return new_topic;
+}
+
+function create_article(url,title,image){
+	var new_article = new Article(url,title,image);
+	return new_article;
+}
+function add_article(Article, Topics){
+	article_id_index++;
+	Article.id = article_id_index;
+	Article.topics = Topics;
+	master_Articles.push(Article)
+}
+
+
 //Topics
 //Constructor Methods
-function Topic (name, position) {
+function Topic (name) {
 	this.name = name;
-	this.position = position;
+	this.position = -1;
 
 	this.articles = [];
 	this.add_article = function(Article){
@@ -29,17 +54,25 @@ function Topic (name, position) {
 			return return_list;
 		}
 	}
+	this.topic_weight = function(){
+		var t_weight = this.articles.length;
+		for (i=0; i< this.articles.length; i++){
+			t_weight += this.articles[i].weight;
+		}
+		return t_weight;
+	}
 
 };
 
 //Articles
-function Article (id, url, title, image, weight, facts) {
-	this.id = id;
+function Article (url, title, image) {
+	this.id = -1;
+	this.topics = [];
 	this.url = url;
 	this.title = title;
 	this.image = image;
-	this.weight = weight;
-	this.facts = facts;
+	this.weight = 1;
+	this.facts = [];
 
 	this.increase_weight = function() {
 		this.weight++;
@@ -64,7 +97,8 @@ function Fact (id, text, image, Article_source){
 	this.Article_source = Article_source;
 }
 
-//testing
+
+//unit tests
 function Test_list() {
 	var test = new Topic("test");
 	var test_art = new Article(0, "www.yelp.com", "Yelp");
@@ -73,7 +107,7 @@ function Test_list() {
 	test.add_article(test_art1);
 
 
-	var x = document.getElementById("demo");
+	// var x = document.getElementById("demo");
 	var y = test.list_articles(1);
 	//x.innerHTML =JSON.stringify(y);
 
@@ -82,7 +116,17 @@ function Test_list() {
 	return [rt_msg, rt_result];
 };
 
-//execute
+function Test_create_article(){
+	y = create_article("www.facebook.com", "Facebook")
+	var rt_msg = "Testing Create Article";
+	var rt_result = JSON.stringify(y);
+	return [rt_msg, rt_result];
+}
+
+function Test_add_article(Article, Topics){
+
+}
+//testing procedure
 function test_p(Funtions){
 	var element = document.getElementById("test_div");
 	for (i=0; i<Funtions.length; i++){
@@ -96,9 +140,10 @@ function test_p(Funtions){
 		element.appendChild(p2);
 	}
 }
-// var ohay = [Test_list(), Test_list()];
-// var p = document.createElement("p");
-test_p([Test_list()]);
+
+//execute testing
+test_p([Test_list(),Test_create_article()]);
+
 
 
 
