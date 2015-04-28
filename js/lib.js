@@ -5,8 +5,6 @@
 
 //Global Article List
 var master_Articles = [];
-var article_id_index = master_Articles.length - 1;
-
 var master_Topics = [];
 
 function create_topic(name){
@@ -20,8 +18,7 @@ function create_article(url,title,image){
 	return new_article;
 }
 function add_article(Article, Topics){
-	article_id_index++;
-	Article.id = article_id_index;
+	Article.id = master_Articles.length;
 	Article.topics = Topics;
 	master_Articles.push(Article)
 }
@@ -99,6 +96,38 @@ function Fact (id, text, image, Article_source){
 
 
 //unit tests
+function create_test_name(length){
+	var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < length; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+
+function Test_create_topic(){
+	y = create_topic(create_test_name(5));
+	var rt_msg = "Testing Create Topic";
+	var rt_result = JSON.stringify(y);
+	return [rt_msg, rt_result];
+}
+
+
+function Test_create_article(){
+	y = create_article("www.facebook.com", "Facebook")
+	var rt_msg = "Testing Create Article";
+	var rt_result = JSON.stringify(y);
+	return [rt_msg, rt_result];
+}
+
+function Test_add_article(Article, Topics){
+
+}
+
+
+
 function Test_list() {
 	var test = new Topic("test");
 	var test_art = new Article(0, "www.yelp.com", "Yelp");
@@ -116,16 +145,7 @@ function Test_list() {
 	return [rt_msg, rt_result];
 };
 
-function Test_create_article(){
-	y = create_article("www.facebook.com", "Facebook")
-	var rt_msg = "Testing Create Article";
-	var rt_result = JSON.stringify(y);
-	return [rt_msg, rt_result];
-}
 
-function Test_add_article(Article, Topics){
-
-}
 //testing procedure
 function test_p(Funtions){
 	var element = document.getElementById("test_div");
@@ -142,7 +162,7 @@ function test_p(Funtions){
 }
 
 //execute testing
-test_p([Test_list(),Test_create_article()]);
+test_p([Test_list(),Test_create_article(), Test_create_topic()]);
 
 
 
