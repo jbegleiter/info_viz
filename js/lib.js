@@ -12,6 +12,10 @@ function Topic (name, position) {
 		this.articles.push(Article);
 	};
 
+	this.remove_article = function(Article){
+		var index = this.articles.indexOf(Article);
+		this.articles.splice(index, 1);
+	}
 	this.list_articles = function(index){
 		if (index == -1) {
 			return this.articles;
@@ -24,6 +28,7 @@ function Topic (name, position) {
 			return return_list;
 		}
 	}
+
 };
 
 //Articles
@@ -39,13 +44,18 @@ function Article (id, url, title) {
 //Thematic Continents
 //Person
 
-//errata
+//testing
+
 var test = new Topic("test");
 var test_art = new Article(0, "www.yelp.com", "Yelp");
+var test_art1 = new Article(1, "www.google.com", "Google");
 test.add_article(test_art);
-test.add_article(test_art);
-//console.log(test.articles[0])
-//var hi = test.calc_radius;
-console.log(test.list_articles(1));
+test.add_article(test_art1);
+
+
+var x = document.getElementById("demo");
+var y = test.list_articles(1);
+x.innerHTML =JSON.stringify(y);
+console.log(test.list_articles(1)[0].id);
 
 
